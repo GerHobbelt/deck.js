@@ -596,6 +596,16 @@ that use the API provided by core.
 
   /* jQuery extension */
   $.deck = function(method, arg) {
+    
+    $window.bind('hashchange.deck', function(event) {
+      if (event.originalEvent && event.originalEvent.newURL) {
+        goByHash(event.originalEvent.newURL);
+      }
+      else {
+        goByHash(window.location.hash);
+      }
+    });
+
     var args = Array.prototype.slice.call(arguments, 1);
     if (methods[method]) {
       return methods[method].apply(this, args);
@@ -729,15 +739,6 @@ that use the API provided by core.
 
   $document.ready(function() {
     $('html').addClass('ready');
-  });
-
-  $window.bind('hashchange.deck', function(event) {
-    if (event.originalEvent && event.originalEvent.newURL) {
-      goByHash(event.originalEvent.newURL);
-    }
-    else {
-      goByHash(window.location.hash);
-    }
   });
 
   $window.bind('load.deck', function() {
